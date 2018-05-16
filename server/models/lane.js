@@ -19,7 +19,7 @@ laneSchema.pre('findOne', function (next) {
 });
 
 laneSchema.pre('remove', function (next) {
-  this.pull('notes');
+  // this.pull('notes');
   next();
 });
 
