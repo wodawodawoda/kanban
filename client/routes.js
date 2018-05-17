@@ -25,23 +25,22 @@ if (process.env.NODE_ENV !== 'production') {
 // More info: http://blog.mxstbr.com/2016/01/react-apps-with-pages/
 export default (
   <Route path="/" component={App}>
+    {/*<IndexRoute*/}
+      {/*getComponent={(nextState, cb) => {*/}
+        {/*require.ensure([], require => {*/}
+          {/*cb(null, require('./modules/Post/pages/PostListPage/PostListPage').default);*/}
+        {/*});*/}
+      {/*}}*/}
+    {/*/>*/}
+    {/*<Route*/}
+      {/*path="/posts/:slug-:cuid"*/}
+      {/*getComponent={(nextState, cb) => {*/}
+        {/*require.ensure([], require => {*/}
+          {/*cb(null, require('./modules/Post/pages/PostDetailPage/PostDetailPage').default);*/}
+        {/*});*/}
+      {/*}}*/}
+    {/*/>*/}
     <IndexRoute
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Post/pages/PostListPage/PostListPage').default);
-        });
-      }}
-    />
-    <Route
-      path="/posts/:slug-:cuid"
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Post/pages/PostDetailPage/PostDetailPage').default);
-        });
-      }}
-    />
-    <Route
-      path="/kanban"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/Kanban/Kanban').default);

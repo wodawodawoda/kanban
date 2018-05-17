@@ -9,11 +9,14 @@ class Note extends Component {
   render() {
     return (
       <div className="note">
-        {/*<p className="note__task">{this.props.note.task}</p>*/}
-        <button className="note__delete-note"
-                onClick={() => this.props.deleteNote(this.props.note.id, this.props.laneId)}>
-          Delete note
-        </button>
+        <p className="note__task">{this.props.note.task}</p>
+        <div className="note__options">
+          <button className="note__btn note__btn--edit-note">✎</button>
+          <button className="note__btn note__btn--delete-note"
+                  onClick={() => this.props.deleteNote(this.props.note.id, this.props.laneId)}>
+            X
+          </button>
+        </div>
       </div>
     );
   }

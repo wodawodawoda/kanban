@@ -8,7 +8,7 @@ import * as noteActions from '../Note/NoteActions';
 import Lane from '../Lane/Lane';
 
 // Import Style
-// import styles from './Kanban.css';
+import './Kanban.sass';
 
 class Kanban extends Component {
   componentDidMount() {
@@ -27,14 +27,15 @@ class Kanban extends Component {
           <input type="text" className="kanban__form-name"/>
           <button type="submit" className="kanban__add-lane" onClick={(e) => this.handleForm(e)}>Add Lane</button>
         </form>
-        {/*{console.log({props: this.props, lanes: this.props.lanes})}*/}
-        {this.props.lanes.map(lane => {
-          return <Lane key={lane.id}
-                       lane={lane}
-                       createNote={this.props.createNoteRequest}
-                       deleteNote={this.props.deleteNoteRequest}
-                       deleteLane={this.props.deleteLaneRequest} />;
-        })}
+        <div className="kanban__lanes">
+          {this.props.lanes.map(lane => {
+            return <Lane key={lane.id}
+                         lane={lane}
+                         createNote={this.props.createNoteRequest}
+                         deleteNote={this.props.deleteNoteRequest}
+                         deleteLane={this.props.deleteLaneRequest} />;
+          })}
+        </div>
       </div>
     );
   }

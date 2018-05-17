@@ -3,32 +3,36 @@ import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
 // Import Style
-import styles from './Header.css';
+import './Header.sass';
 
 export function Header(props, context) {
   const languageNodes = props.intl.enabledLanguages.map(
-    lang => <li key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? styles.selected : ''}>{lang}</li>
+    lang => <button key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? "selected" : ''}>{lang}</button>
   );
 
   return (
-    <div className={styles.header}>
-      <div className={styles['language-switcher']}>
-        <ul>
-          <li><FormattedMessage id="switchLanguage" /></li>
+    <header className="app__top-header top-header">
+      <nav className="top-header__navigation">
+        <div className="top-header__links">
+          <Link className="top-header__link" to="/kanban">Kanban</Link>
+          <Link className="top-header__link" to="/">Blog</Link>
+        </div>
+        <div className="top-header__languages">
+          <FormattedMessage id="switchLanguage" />
           {languageNodes}
-        </ul>
-      </div>
-      <div className={styles.content}>
-        <h1 className={styles['site-title']}>
-          <Link to="/" ><FormattedMessage id="siteTitle" /></Link>
-        </h1>
-        {
-          context.router.isActive('/', true)
-            ? <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>
-            : null
-        }
-      </div>
-    </div>
+        </div>
+      </nav>
+      {/*{*/}
+        {/*context.router.isActive('/', true)*/}
+          {/*? <div>*/}
+              {/*<h1 className="top-header__site-title">*/}
+                {/*<Link to="/" ><FormattedMessage id="siteTitle" /></Link>*/}
+              {/*</h1>*/}
+              {/*<a className="top-header__add-post-button" href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>*/}
+            {/*</div>*/}
+          {/*: null*/}
+      {/*}*/}
+    </header>
   );
 }
 
