@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 // Import Style
 // import styles from './Lane.css';
 import Note from '../Note/Note';
+import * as laneActions from '../Lane/LaneActions';
 
 class Lane extends Component {
   constructor(props) {
@@ -23,10 +24,20 @@ class Lane extends Component {
   handleShowAddNote = () => {
     let show = 'lane__add-form--visible';
     if(this.state.showAddNote) show = '';
-    console.log(show)
     this.setState({
       showAddNote: show,
     });
+  }
+
+  handleEditName = (e) => {
+    e.target.previousSibling.contentEditable = !!e.target.previousSibling.contentEditable;
+  }
+
+  handleEditSubmit = (e) => {
+    if (e.keyCode === 13) {
+      this.props.updateLaneRequest(this.props.lane.id, e.target.innerText);
+      e.target.contentEditable = false;
+    }
   }
 
   render() {
@@ -34,10 +45,15 @@ class Lane extends Component {
       <div className="lane">
         <div className="lane__options">
           <button className="lane__btn lane__btn--show-add-note" onClick={this.handleShowAddNote}>+</button>
-          <button className="lane__btn lane__btn--delete-lane" onClick={() => this.props.deleteLane(this.props.lane.id)}>X</button>
+          <button className="lane__btn lane__btn--delete-lane" onClick={() => this.props.deleteLaneRequest(this.props.lane.id)}>X</button>
         </div>
         <header className="lane__header">
-          <h4 className="lane__name">{this.props.lane.name}</h4>
+          <div className="lane__title">
+            <h4 className="lane__name" onKeyDown={e => this.handleEditSubmit(e)}>
+              {this.props.lane.name}
+            </h4>
+            <button className="lane__btn lane__btn--edit-name" onClick={e => this.handleEditName(e)}>✎</button>
+          </div>
           <form id="addNoteForm" className={`lane__add-form ${this.state.showAddNote}`}>
             <input type="text" className="lane__form-task" />
             <button type="submit" className="lane__btn lane__btn--add-note" onClick={e => this.handleForm(e)}>Add note</button>
@@ -47,7 +63,6 @@ class Lane extends Component {
           {this.props.lane.notes.map(note => {
             return <Note key={note.id}
                          note={this.props.notes[note]}
-                         deleteNote={this.props.deleteNote}
                          laneId={this.props.lane.id} />;
           })}
         </div>
@@ -63,7 +78,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return bindActionCreators({ ...laneActions }, dispatch);
 };
 
 Lane.propTypes = {

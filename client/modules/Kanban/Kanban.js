@@ -32,8 +32,7 @@ class Kanban extends Component {
             return <Lane key={lane.id}
                          lane={lane}
                          createNote={this.props.createNoteRequest}
-                         deleteNote={this.props.deleteNoteRequest}
-                         deleteLane={this.props.deleteLaneRequest} />;
+                         deleteNote={this.props.deleteNoteRequest} />;
           })}
         </div>
       </div>

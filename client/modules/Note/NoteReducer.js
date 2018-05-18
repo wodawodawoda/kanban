@@ -8,6 +8,7 @@ const NoteReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_NOTE:
     case UPDATE_NOTE:
+      console.log(action)
       return { ...state, [action.note.id]: action.note };
 
     case CREATE_NOTES:

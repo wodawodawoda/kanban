@@ -59,6 +59,14 @@ export function updateLane(lane) {
   };
 }
 
+export function updateLaneRequest(laneId, laneName) {
+  return (dispatch) => {
+    return callApi(`lanes/${laneId}`, 'put', {
+      name: laneName,
+    }).then(res => dispatch(updateLane(res)));
+  };
+}
+
 export function deleteLane(laneId) {
   return {
     type: DELETE_LANE,
