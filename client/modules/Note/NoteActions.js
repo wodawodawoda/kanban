@@ -42,7 +42,6 @@ export function updateNote(noteId, note) {
 }
 
 export function updateNoteRequest(noteId, note) {
-  console.log(noteId, note)
   return (dispatch) => {
     return callApi(`notes/${noteId}`, 'put', {
       task: note,
@@ -59,7 +58,6 @@ export function deleteNote(noteId, laneId) {
 }
 
 export function deleteNoteRequest(noteId, laneId) {
-  console.log({noteId, laneId})
   return (dispatch) => {
     return callApi(`notes/${noteId}`, 'delete')
       .then(res => dispatch(deleteNote(noteId, laneId)));

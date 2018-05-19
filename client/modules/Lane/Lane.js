@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
+
+// React DnD
+import { DropTarget, DragSource } from 'react-dnd';
+import ItemTypes from '../Kanban/itemTypes';
 
 
 // Import Style
 // import styles from './Lane.css';
-import Note from '../Note/Note';
+import NoteContainer from '../Note/NoteContainer';
 import * as laneActions from '../Lane/LaneActions';
 
 class Lane extends Component {
@@ -41,7 +45,7 @@ class Lane extends Component {
   }
 
   render() {
-    return (
+    return this.props.connectDragSource(this.props.connectDropNoteTarget(this.props.connectDropLaneTarget(
       <div className="lane">
         <div className="lane__options">
           <button className="lane__btn lane__btn--show-add-note" onClick={this.handleShowAddNote}>+</button>
@@ -61,13 +65,13 @@ class Lane extends Component {
         </header>
         <div className="notes">
           {this.props.lane.notes.map(note => {
-            return <Note key={note.id}
+            return <NoteContainer key={note}
                          note={this.props.notes[note]}
                          laneId={this.props.lane.id} />;
           })}
         </div>
       </div>
-    );
+    )));
   }
 }
 
@@ -84,7 +88,59 @@ const mapDispatchToProps = (dispatch) => {
 Lane.propTypes = {
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+const laneSource = {
+  beginDrag(props, component) {
+    return {
+      id: props.lane.id,
+    };
+  },
+  isDragging(props, monitor) {
+    // console.log(props.lane.id === monitor.getItem().id)
+    return props.lane.id === monitor.getItem().id;
+  },
+  endDrag(props) {
+
+  }
+};
+
+const laneTarget = {
+  hover(targetProps, monitor) {
+    const sourceProps = monitor.getItem();
+
+    if (targetProps.lane.id !== sourceProps.id) {
+      // console.log({targetProps, sourceProps});
+      targetProps.moveLane(
+        sourceProps.id,
+        targetProps.lane.id,
+      );
+    }
+  },
+};
+
+const noteTarget = {
+  hover(targetProps, monitor) {
+    const sourceProps = monitor.getItem();
+    const { id: noteId, laneId: sourceLaneId } = sourceProps;
+    if (!targetProps.lane.notes.includes(sourceProps.id)) {
+      targetProps.moveBetweenLanes(
+        targetProps.lane.id,
+        noteId,
+        sourceLaneId,
+      );
+    }
+  },
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  DropTarget(ItemTypes.NOTE, noteTarget, dragConnect => ({
+    connectDropNoteTarget: dragConnect.dropTarget(),
+  })),
+  DragSource(ItemTypes.LANE, laneSource, (con, monitor) => ({
+    connectDragSource: con.dragSource(),
+    isDragging: monitor.isDragging(),
+  })),
+  DropTarget(ItemTypes.LANE, laneTarget, dragConnect => ({
+    connectDropLaneTarget: dragConnect.dropTarget(),
+  })),
 )(Lane);

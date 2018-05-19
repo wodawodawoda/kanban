@@ -1,11 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 
 import * as laneActions from '../Lane/LaneActions';
 import * as noteActions from '../Note/NoteActions';
 
 import Lane from '../Lane/Lane';
+
+// React DnD
+import { DragDropContext, DropTarget } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+import ItemTypes from '../Kanban/itemTypes';
 
 // Import Style
 import './Kanban.sass';
@@ -55,7 +60,7 @@ const mapDispatchToProps = (dispatch) => {
 Kanban.propTypes = {
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  DragDropContext(HTML5Backend),
 )(Kanban);
