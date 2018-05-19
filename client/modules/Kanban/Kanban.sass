@@ -5,6 +5,43 @@
   width: 100%
   &__lanes
     display: flex
+  &__add-form
+    transform-origin: 40px
+    transform: rotate(0deg)
+    display: flex
+    align-items: center
+    &:hover .kanban__form-name
+      width: 200px
+      opacity: 1
+    &:hover .kanban__add-lane
+      transform: rotate(90deg)
+  &__form-name
+    width: 30px
+    opacity: 0.3
+    padding-left: 40px
+    transform-origin: left
+    transform: translateX(-40px)
+    transition: 0.5s
+  &__add-lane
+    font-size: 2rem
+    position: relative
+    z-index: 1
+    min-width: 80px
+    height: 80px
+    border-radius: 50%
+    background: #008000
+    border: none
+    transition: 0.5s
+
+@keyframes rotateForm
+  0%
+    transform: rotate(-90deg)
+  50%
+    transform: rotate(-45deg)
+    width: 80px
+  100%
+    transform: rotate(0deg)
+    width: 100%
 
 .lane
   display: flex
@@ -31,6 +68,7 @@
     height: 0
     overflow: hidden
     transition: 0.4s
+    transform-origin: top
     &--visible
       height: 50px
   &__form-task

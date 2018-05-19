@@ -24,8 +24,8 @@ class Kanban extends Component {
     return (
       <div className="kanban">
         <form action="" className="kanban__add-form">
+          <button type="submit" className="kanban__add-lane" onClick={(e) => this.handleForm(e)}>+</button>
           <input type="text" className="kanban__form-name"/>
-          <button type="submit" className="kanban__add-lane" onClick={(e) => this.handleForm(e)}>Add Lane</button>
         </form>
         <div className="kanban__lanes">
           {this.props.lanes.map(lane => {
