@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { compose } from 'redux';
 
+import callApi from '../../util/apiCaller';
+
 // React DnD
 import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from '../Kanban/itemTypes';
-
 
 // Import Style
 // import styles from './Note.css';
@@ -43,8 +44,7 @@ Note.propTypes = {
 };
 
 const noteSource = {
-  beginDrag(props, component) {
-    // console.log(props)
+  beginDrag(props) {
     return {
       id: props.note.id,
       laneId: props.laneId,
@@ -53,19 +53,20 @@ const noteSource = {
   isDragging(props, monitor) {
     return props.note.id === monitor.getItem().id;
   },
-  endDrag(props) {
 
-  }
 };
 
 const noteTarget = {
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
-
     if (targetProps.note.id !== sourceProps.id) {
       targetProps.moveWithinLane(targetProps.laneId, targetProps.note.id, sourceProps.id);
     }
   },
+  drop(props, monitor) {
+    const notes = props.lanes[props.laneId].notes.map(id => props.notes[id]._id);
+    callApi(`lanes/${props.laneId}`, 'put', { notes });
+  }
 };
 
 export default compose(

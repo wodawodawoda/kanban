@@ -1,7 +1,14 @@
 import Lane from '../models/lane';
-import Note from '../models/note';
 import uuid from 'uuid';
+import { Types } from 'mongoose';
 
+
+/**
+ * @description Add new lane document
+ * @param req
+ * @param res
+ * @return new lane document
+ */
 export function addLane(req, res) {
   if (!req.body.name) {
     res.status(403).end();
@@ -21,6 +28,12 @@ export function addLane(req, res) {
   });
 }
 
+/**
+ * @description Get all documents from Lanes collection
+ * @param req
+ * @param res
+ * @return object with lanes property (array of documents)
+ */
 export function getLanes(req, res) {
   Lane.find().exec((err, lanes) => {
     if (err) {
@@ -30,6 +43,12 @@ export function getLanes(req, res) {
   });
 }
 
+/**
+ * @description Search for specified lane document
+ * @param req
+ * @param res
+ * @return single lane document
+ */
 export function getLane(req, res) {
   Lane.findOne({ id: req.params.laneId }).exec((err, lane) => {
     if (err) {
@@ -40,14 +59,14 @@ export function getLane(req, res) {
   });
 }
 
+/**
+ * @description Edit lane properties (name, notes)
+ * @param req
+ * @param res
+ * @return updated lane document
+ */
 export function editLane(req, res) {
-  // Lane.update({ id: req.params.laneId }, { name: req.body.name }, (err, lane) => {
-  //   if (err) {
-  //     res.status(500).send(err);
-  //   }
-  //   res.send(lane);
-  // });
-  Lane.findOneAndUpdate({ id: req.params.laneId }, { name: req.body.name }, { new: true }, (err, lane) => {
+  Lane.findOneAndUpdate({ id: req.params.laneId }, req.body, { new: true }, (err, lane) => {
     if (err) {
       res.status(500).send(err);
     }
@@ -55,6 +74,27 @@ export function editLane(req, res) {
   });
 }
 
+/**
+ * @description Remove note from lane after draging it to another lane
+ * @param req
+ * @param res
+ * @return updated lane document
+ */
+export function updateLane(req, res) {
+  const id = Types.ObjectId(req.params.noteId)
+  Lane.findOneAndUpdate({ id: req.params.laneId }, { $pull: { notes: id } }, { new: true }, (err, lane) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.send(lane);
+  });
+}
+
+/**
+ * @description Deleting lane
+ * @param req
+ * @param res
+ */
 export function deleteLane(req, res) {
   Lane.findOne({ id: req.params.laneId }).exec((err, lane) => {
     if (err) {

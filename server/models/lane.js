@@ -13,6 +13,11 @@ laneSchema.pre('find', function (next) {
   next();
 });
 
+laneSchema.pre('findOneAndUpdate', function (next) {
+  this.populate('notes');
+  next();
+});
+
 laneSchema.pre('findOne', function (next) {
   this.populate('notes');
   next();

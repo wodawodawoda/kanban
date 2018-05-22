@@ -15,6 +15,9 @@ router.route('/lanes').post(LaneController.addLane);
 // Edit lane
 router.route('/lanes/:laneId').put(LaneController.editLane);
 
+// Delete note from lane.notes array
+router.route('/lanes/:laneId/:noteId').delete(LaneController.updateLane);
+
 // Delete lane
 router.route('/lanes/:laneId').delete(LaneController.deleteLane);
 

@@ -22,7 +22,7 @@ class Kanban extends Component {
 
   handleForm = (e) => {
     e.preventDefault();
-    this.props.createLaneRequest(e.target.form[0].value);
+    this.props.createLaneRequest(e.target.form[1].value);
   }
 
   render() {

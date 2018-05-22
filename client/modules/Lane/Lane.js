@@ -11,6 +11,7 @@ import ItemTypes from '../Kanban/itemTypes';
 // import styles from './Lane.css';
 import NoteContainer from '../Note/NoteContainer';
 import * as laneActions from '../Lane/LaneActions';
+import callApi from '../../util/apiCaller'
 
 class Lane extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class Lane extends Component {
 
   handleEditSubmit = (e) => {
     if (e.keyCode === 13) {
-      this.props.updateLaneRequest(this.props.lane.id, e.target.innerText);
+      this.props.updateLaneRequest(this.props.lane.id, e.target.innerText, 'updateLane');
       e.target.contentEditable = false;
     }
   }
@@ -78,6 +79,7 @@ class Lane extends Component {
 const mapStateToProps = (state) => {
   return {
     notes: state.notes,
+    lanes: state.lanes,
   };
 };
 
@@ -89,7 +91,7 @@ Lane.propTypes = {
 };
 
 const laneSource = {
-  beginDrag(props, component) {
+  beginDrag(props) {
     return {
       id: props.lane.id,
     };
@@ -98,9 +100,6 @@ const laneSource = {
     // console.log(props.lane.id === monitor.getItem().id)
     return props.lane.id === monitor.getItem().id;
   },
-  endDrag(props) {
-
-  }
 };
 
 const laneTarget = {
@@ -108,7 +107,6 @@ const laneTarget = {
     const sourceProps = monitor.getItem();
 
     if (targetProps.lane.id !== sourceProps.id) {
-      // console.log({targetProps, sourceProps});
       targetProps.moveLane(
         sourceProps.id,
         targetProps.lane.id,
@@ -120,7 +118,7 @@ const laneTarget = {
 const noteTarget = {
   hover(targetProps, monitor) {
     const sourceProps = monitor.getItem();
-    const { id: noteId, laneId: sourceLaneId } = sourceProps;
+    let { id: noteId, laneId: sourceLaneId } = sourceProps;
     if (!targetProps.lane.notes.includes(sourceProps.id)) {
       targetProps.moveBetweenLanes(
         targetProps.lane.id,
@@ -128,6 +126,12 @@ const noteTarget = {
         sourceLaneId,
       );
     }
+  },
+  drop(props, monitor) {
+    const notes = props.lanes[props.lane.id].notes.map(id => props.notes[id]._id);
+    const objectId = props.notes[monitor.getItem().id]._id;
+    callApi(`lanes/${props.lane.id}`, 'put', { notes });
+    callApi(`lanes/${monitor.getItem().laneId}/${objectId}`, 'delete');
   },
 };
 
