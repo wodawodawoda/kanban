@@ -21,19 +21,21 @@ class Kanban extends Component {
 
   handleForm = (e) => {
     e.preventDefault();
+    if (!e.target.form[1].value) return;
     this.props.createLaneRequest(e.target.form[1].value);
+    e.target.form[1].value = '';
   }
 
   render() {
     return (
       <div className="kanban">
-        <form action="" className="kanban__add-form">
+        <form className="kanban__add-form">
           <button
             type="submit"
             className="kanban__add-lane"
             onClick={(e) => this.handleForm(e)}
           >+</button>
-          <input type="text" className="kanban__form-name" />
+          <input type="text" className="kanban__form-name" required="true" />
         </form>
         <div className="kanban__lanes">
           {this.props.lanes.map(lane => {

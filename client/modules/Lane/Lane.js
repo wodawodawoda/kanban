@@ -10,7 +10,7 @@ import ItemTypes from '../Kanban/itemTypes';
 // Import Style
 import './Lane.sass';
 import NoteContainer from '../Note/NoteContainer';
-import { deleteLaneRequest, updateLaneRequest } from './LaneActions';
+import { deleteLaneRequest, updateLaneRequest, moveBetweenLanes, moveLane } from './LaneActions';
 import { createNoteRequest } from '../Note/NoteActions';
 import callApi from '../../util/apiCaller';
 
@@ -24,7 +24,10 @@ class Lane extends Component {
 
   handleForm = (e) => {
     e.preventDefault();
+    if (!e.target.form[0].value) return;
     this.props.createNoteRequest(e.target.form[0].value, this.props.lane.id);
+    e.target.form[0].value = '';
+    this.setState({ showAddNote: '' });
   }
 
   handleShowAddNote = () => {
@@ -89,7 +92,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ deleteLaneRequest, updateLaneRequest, createNoteRequest }, dispatch);
+  return bindActionCreators({ moveBetweenLanes, moveLane, deleteLaneRequest, updateLaneRequest, createNoteRequest }, dispatch);
 };
 
 Lane.propTypes = {

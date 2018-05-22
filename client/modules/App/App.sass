@@ -5,26 +5,9 @@
   grid-area: content
   display: flex
 
-
 .layout
   display: grid
   height: 100vh
   grid-template-columns: 1fr 200px
   grid-template-rows: auto 1fr
-  grid-template-areas: "header header" "content side-menu"
-
-//@media (max-width: 1200px)
-//    .layout
-//        grid-template-columns: auto 1fr 1fr 1fr auto
-//
-//
-//
-//@media (max-width: 768px)
-//    .layout
-//        grid-template-areas:
-//                ". header header header ."
-//                ". content content content ."
-//                ". sidebar sidebar sidebar ."
-//                ". footer footer footer ."
-//
-//
+  grid-template-areas: "header header" "content content"

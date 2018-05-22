@@ -15,7 +15,6 @@ export function Header(props) {
       <nav className="top-header__navigation">
         <div className="top-header__links">
           <Link className="top-header__link" to="/" activeClassName="active-link">Kanban</Link>
-          <Link className="top-header__link" to="/">Blog</Link>
         </div>
         <div className="top-header__languages">
           <FormattedMessage id="switchLanguage" />

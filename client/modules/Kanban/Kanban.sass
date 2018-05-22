@@ -3,8 +3,12 @@
   background: antiquewhite
   grid-area: content
   width: 100%
+  padding: 35px
   &__lanes
     display: flex
+    flex-flow: row wrap
+    justify-content: space-between
+    align-items: flex-start
   &__add-form
     transform-origin: 40px
     transform: rotate(0deg)
@@ -23,7 +27,8 @@
     transform: translateX(-40px)
     transition: 0.5s
   &__add-lane
-    font-size: 2rem
+    font-size: 4rem
+    line-height: 0px
     position: relative
     z-index: 1
     min-width: 80px
@@ -31,14 +36,7 @@
     border-radius: 50%
     background: #008000
     border: none
-    transition: 0.5s
-
-@keyframes rotateForm
-  0%
-    transform: rotate(-90deg)
-  50%
-    transform: rotate(-45deg)
-    width: 80px
-  100%
-    transform: rotate(0deg)
-    width: 100%
+    transition: 0.4s
+    transform-origin: center
+    &:hover
+      background: #daa520
