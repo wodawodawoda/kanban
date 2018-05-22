@@ -2,15 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 
-import * as laneActions from '../Lane/LaneActions';
+import { createLaneRequest, fetchLanes } from '../Lane/LaneActions';
 import * as noteActions from '../Note/NoteActions';
 
 import Lane from '../Lane/Lane';
 
 // React DnD
-import { DragDropContext, DropTarget } from 'react-dnd';
+import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import ItemTypes from '../Kanban/itemTypes';
 
 // Import Style
 import './Kanban.sass';
@@ -29,15 +28,16 @@ class Kanban extends Component {
     return (
       <div className="kanban">
         <form action="" className="kanban__add-form">
-          <button type="submit" className="kanban__add-lane" onClick={(e) => this.handleForm(e)}>+</button>
-          <input type="text" className="kanban__form-name"/>
+          <button
+            type="submit"
+            className="kanban__add-lane"
+            onClick={(e) => this.handleForm(e)}
+          >+</button>
+          <input type="text" className="kanban__form-name" />
         </form>
         <div className="kanban__lanes">
           {this.props.lanes.map(lane => {
-            return <Lane key={lane.id}
-                         lane={lane}
-                         createNote={this.props.createNoteRequest}
-                         deleteNote={this.props.deleteNoteRequest} />;
+            return <Lane key={lane.id} lane={lane} />;
           })}
         </div>
       </div>
@@ -45,7 +45,7 @@ class Kanban extends Component {
   }
 }
 
-Kanban.need = [() => { return laneActions.fetchLanes(); }];
+Kanban.need = [() => { return fetchLanes(); }];
 
 const mapStateToProps = (state) => {
   return {
@@ -54,7 +54,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ ...laneActions, ...noteActions }, dispatch);
+  return bindActionCreators({ createLaneRequest, fetchLanes, ...noteActions }, dispatch);
 };
 
 Kanban.propTypes = {

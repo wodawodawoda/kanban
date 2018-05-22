@@ -1,10 +1,9 @@
 // Import Actions
 import {
   CREATE_LANE, CREATE_LANES, DELETE_LANE, MOVE_BETWEEN_LANES, MOVE_WITHIN_LANE,
-  UPDATE_LANE, MOVE_LANE
-} from './LaneActions'
+  UPDATE_LANE, MOVE_LANE,
+} from './LaneActions';
 import { CREATE_NOTE, DELETE_NOTE } from '../Note/NoteActions';
-import omit from 'lodash/omit';
 
 // helper functions
 /**
@@ -35,7 +34,7 @@ function moveLane(array, state, sourceLaneId, targetLaneId) {
   const targetIndex = array.indexOf(targetLaneId);
   const arrayCopy = [...state];
   arrayCopy.splice(targetIndex, 0, arrayCopy.splice(sourceIndex, 1)[0]);
-  return arrayCopy
+  return arrayCopy;
 }
 
 /**
@@ -71,7 +70,7 @@ const LaneReducer = (state = initialState, action) => {
     case CREATE_NOTE: {
       const newLane = { ...state[action.laneId] };
       newLane.notes.push(action.note.id);
-      return { ...state, [action.laneId]: newLane};
+      return { ...state, [action.laneId]: newLane };
     }
 
     case DELETE_NOTE: {
@@ -99,7 +98,6 @@ const LaneReducer = (state = initialState, action) => {
     case MOVE_LANE: {
       const lanesCopy = Object.keys(state);
       const lanesState = Object.values(state);
-      console.log({lanesState, lanesCopy})
       const newLanes = moveLane(lanesCopy, lanesState, action.sourceId, action.targetId);
       const newState = arrayToDictionary(newLanes, 'id');
       return newState;

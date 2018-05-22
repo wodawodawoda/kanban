@@ -1,5 +1,4 @@
 import Lane from '../models/lane';
-import uuid from 'uuid';
 import { Types } from 'mongoose';
 
 
@@ -17,8 +16,6 @@ export function addLane(req, res) {
   const newLane = new Lane(req.body);
 
   newLane.notes = [];
-
-  newLane.id = uuid();
 
   newLane.save((err, saved) => {
     if (err) {
@@ -81,7 +78,7 @@ export function editLane(req, res) {
  * @return updated lane document
  */
 export function updateLane(req, res) {
-  const id = Types.ObjectId(req.params.noteId)
+  const id = Types.ObjectId(req.params.noteId);
   Lane.findOneAndUpdate({ id: req.params.laneId }, { $pull: { notes: id } }, { new: true }, (err, lane) => {
     if (err) {
       res.status(500).send(err);

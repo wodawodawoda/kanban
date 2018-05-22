@@ -5,9 +5,9 @@ import { FormattedMessage } from 'react-intl';
 // Import Style
 import './Header.sass';
 
-export function Header(props, context) {
+export function Header(props) {
   const languageNodes = props.intl.enabledLanguages.map(
-    lang => <button key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? "selected" : ''}>{lang}</button>
+    lang => <button key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? 'selected' : ''}>{lang}</button>
   );
 
   return (
@@ -22,16 +22,6 @@ export function Header(props, context) {
           {languageNodes}
         </div>
       </nav>
-      {/*{*/}
-        {/*context.router.isActive('/', true)*/}
-          {/*? <div>*/}
-              {/*<h1 className="top-header__site-title">*/}
-                {/*<Link to="/" ><FormattedMessage id="siteTitle" /></Link>*/}
-              {/*</h1>*/}
-              {/*<a className="top-header__add-post-button" href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>*/}
-            {/*</div>*/}
-          {/*: null*/}
-      {/*}*/}
     </header>
   );
 }

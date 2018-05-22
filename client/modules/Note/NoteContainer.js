@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import Note from './Note';
-import * as noteActions from './NoteActions'
-import { moveWithinLane, moveWithinLaneRequest } from '../Lane/LaneActions'
-import { bindActionCreators } from 'redux'
+import { deleteNoteRequest, updateNoteRequest } from './NoteActions';
+import { moveWithinLane } from '../Lane/LaneActions';
+import { bindActionCreators } from 'redux';
 
 const mapStateToProps = (state) => {
   return {
@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ ...noteActions, moveWithinLane, moveWithinLaneRequest }, dispatch);
+  return bindActionCreators({ deleteNoteRequest, updateNoteRequest, moveWithinLane }, dispatch);
 };
 
 export default connect(

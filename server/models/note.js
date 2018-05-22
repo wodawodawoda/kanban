@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
+const uuidv1 = require('uuid/v1');
 const Schema = mongoose.Schema;
-mongoose.plugin(schema => { schema.options.usePushEach = true });
+mongoose.plugin(schema => { schema.options.usePushEach = true; });
 
 const noteSchema = new Schema({
   task: { type: 'String', required: true },
-  id: { type: 'String', required: true, unique: true },
+  id: { type: 'String', default: uuidv1, required: true, unique: true },
 });
 
 export default mongoose.model('Note', noteSchema);

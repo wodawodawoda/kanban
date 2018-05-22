@@ -1,6 +1,5 @@
-import uuid from 'uuid';
 import callApi from '../../util/apiCaller';
-import { createNotes }  from '../Note/NoteActions'
+import { createNotes } from '../Note/NoteActions';
 
 // Import normalizr
 import { lanes } from '../../util/schema';
@@ -57,14 +56,13 @@ export function updateLane(lane) {
   };
 }
 
-export function updateLaneRequest(laneId, laneName, reducer) {
-  const functionName = `updateLane(res)`;
+export function updateLaneRequest(laneId, laneName) {
   return (dispatch) => {
     return callApi(`lanes/${laneId}`, 'put', {
       name: laneName,
     }).then(res => {
-      res.notes = res.notes.map(note => note.id);
-      dispatch(eval(functionName));
+      const notes = res.notes.map(note => note.id);
+      dispatch(updateLane(notes));
     });
   };
 }
@@ -79,7 +77,7 @@ export function deleteLane(laneId) {
 export function deleteLaneRequest(laneId) {
   return (dispatch) => {
     return callApi(`lanes/${laneId}`, 'delete')
-      .then(res => dispatch(deleteLane(laneId)));
+      .then(() => dispatch(deleteLane(laneId)));
   };
 }
 

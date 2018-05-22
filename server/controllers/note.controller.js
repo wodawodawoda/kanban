@@ -1,7 +1,5 @@
 import Note from '../models/note';
 import Lane from '../models/lane';
-import uuid from 'uuid';
-import Post from '../models/post'
 
 export function addNote(req, res) {
   const { note, laneId } = req.body;
@@ -13,8 +11,6 @@ export function addNote(req, res) {
   const newNote = new Note({
     task: note.task,
   });
-
-  newNote.id = uuid();
 
   newNote.save((err, saved) => {
     if (err) {

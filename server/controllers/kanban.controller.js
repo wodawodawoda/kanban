@@ -2,20 +2,16 @@ import Kanban from '../models/kanban';
 import Lane from '../models/lane';
 import uuid from 'uuid';
 
-export function getSomething(req, res) {
-  return res.status(200).end();
-}
-
 export function getKanban(req, res) {
- Kanban.find().exec((err, kanbans) => {
-   if (err) {
-     res.send(500).send(err);
-   }
-   res.json({ kanbans });
- });
+  Kanban.find().exec((err, kanbans) => {
+    if (err) {
+      res.send(500).send(err);
+    }
+    res.json({ kanbans });
+  });
 }
 
-export function addKanban (req, res) {
+export function addKanban(req, res) {
   if (!req.body.name) {
     res.send(403).end();
   }
@@ -23,8 +19,6 @@ export function addKanban (req, res) {
   const newKanban = new Kanban(req.body);
 
   newKanban.lanes = [];
-
-
 }
 
 export function addLane(req, res) {

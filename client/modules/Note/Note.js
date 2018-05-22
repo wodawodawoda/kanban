@@ -8,12 +8,12 @@ import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from '../Kanban/itemTypes';
 
 // Import Style
-// import styles from './Note.css';
+import './Note.sass';
 
 class Note extends Component {
 
   handleEditNote = (e) => {
-    e.target.parentNode.previousSibling.contentEditable = !!e.target.parentNode.previousSibling.contentEditable
+    e.target.parentNode.previousSibling.contentEditable = !!e.target.parentNode.previousSibling.contentEditable;
   }
 
   handleEditSubmit = (e) => {
@@ -26,14 +26,14 @@ class Note extends Component {
   render() {
     const opacity = this.props.isDragging ? 0.4 : 1;
     return this.props.connectDragSource(this.props.connectDropTarget(
-      <div className="note" style={{opacity}}>
+      <div className="note" style={{ opacity }}>
         <p className="note__task" onKeyDown={e => this.handleEditSubmit(e)}>{this.props.note.task}</p>
         <div className="note__options">
           <button className="note__btn note__btn--edit-note" onClick={e => this.handleEditNote(e)}>✎</button>
-          <button className="note__btn note__btn--delete-note"
-                  onClick={() => this.props.deleteNoteRequest(this.props.note.id, this.props.laneId)}>
-            X
-          </button>
+          <button
+            className="note__btn note__btn--delete-note"
+            onClick={() => this.props.deleteNoteRequest(this.props.note.id, this.props.laneId)}
+          >X</button>
         </div>
       </div>
     ));
@@ -43,6 +43,8 @@ class Note extends Component {
 Note.propTypes = {
 };
 
+
+// React DnD
 const noteSource = {
   beginDrag(props) {
     return {
@@ -53,7 +55,6 @@ const noteSource = {
   isDragging(props, monitor) {
     return props.note.id === monitor.getItem().id;
   },
-
 };
 
 const noteTarget = {
@@ -63,10 +64,10 @@ const noteTarget = {
       targetProps.moveWithinLane(targetProps.laneId, targetProps.note.id, sourceProps.id);
     }
   },
-  drop(props, monitor) {
+  drop(props) {
     const notes = props.lanes[props.laneId].notes.map(id => props.notes[id]._id);
     callApi(`lanes/${props.laneId}`, 'put', { notes });
-  }
+  },
 };
 
 export default compose(

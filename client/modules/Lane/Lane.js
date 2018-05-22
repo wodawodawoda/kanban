@@ -8,10 +8,11 @@ import ItemTypes from '../Kanban/itemTypes';
 
 
 // Import Style
-// import styles from './Lane.css';
+import './Lane.sass';
 import NoteContainer from '../Note/NoteContainer';
-import * as laneActions from '../Lane/LaneActions';
-import callApi from '../../util/apiCaller'
+import { deleteLaneRequest, updateLaneRequest } from './LaneActions';
+import { createNoteRequest } from '../Note/NoteActions';
+import callApi from '../../util/apiCaller';
 
 class Lane extends Component {
   constructor(props) {
@@ -23,12 +24,12 @@ class Lane extends Component {
 
   handleForm = (e) => {
     e.preventDefault();
-    this.props.createNote(e.target.form[0].value, this.props.lane.id);
+    this.props.createNoteRequest(e.target.form[0].value, this.props.lane.id);
   }
 
   handleShowAddNote = () => {
     let show = 'lane__add-form--visible';
-    if(this.state.showAddNote) show = '';
+    if (this.state.showAddNote) show = '';
     this.setState({
       showAddNote: show,
     });
@@ -66,9 +67,13 @@ class Lane extends Component {
         </header>
         <div className="notes">
           {this.props.lane.notes.map(note => {
-            return <NoteContainer key={note}
-                         note={this.props.notes[note]}
-                         laneId={this.props.lane.id} />;
+            return (
+              <NoteContainer
+                key={note}
+                note={this.props.notes[note]}
+                laneId={this.props.lane.id}
+              />
+            );
           })}
         </div>
       </div>
@@ -84,12 +89,14 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ ...laneActions }, dispatch);
+  return bindActionCreators({ deleteLaneRequest, updateLaneRequest, createNoteRequest }, dispatch);
 };
 
 Lane.propTypes = {
 };
 
+
+// React DnD
 const laneSource = {
   beginDrag(props) {
     return {
@@ -97,7 +104,6 @@ const laneSource = {
     };
   },
   isDragging(props, monitor) {
-    // console.log(props.lane.id === monitor.getItem().id)
     return props.lane.id === monitor.getItem().id;
   },
 };

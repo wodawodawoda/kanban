@@ -1,0 +1,63 @@
+/* Lane styles */
+.lane
+  display: flex
+  flex-flow: column nowrap
+  position: relative
+  margin: 10px 20px
+  padding: 30px 20px
+  background: lightgrey
+  border-radius: 10px
+  &:hover .lane__options
+    opacity: 1
+  &__title
+    display: flex
+    justify-content: flex-start
+    &:hover .lane__btn--edit-name
+      opacity: 1
+    &:focus .lane__btn--edit-name
+      opacity: 1
+  &__name
+    text-transform: uppercase
+  &__add-form
+    display: flex
+    height: 0
+    overflow: hidden
+    transition: 0.4s
+    transform-origin: top
+    &--visible
+      height: 50px
+  &__options
+    opacity: 0
+    position: absolute
+    top: 0
+    right: 0
+    transition: 0.4s
+  &__btn
+    width: 30px
+    color: #757575
+    border: none
+    background: none
+    transition: 0.2s
+    &:hover
+      background: #888888
+      color: #8b0000
+    &--delete-lane
+      border-radius: 0 10px 0 0
+      padding: 10px
+    &--show-add-note
+      border-radius: 0 0 0 10px
+      padding: 10px
+    &--add-note
+      background: #888888
+      color: #fff
+      border-radius: 0 10px 10px 0
+      padding: 5px
+      width: 50px
+    &--edit-name
+      opacity: 0
+      &:hover
+        background: none
+
+.notes
+  display: flex
+  flex-flow: column nowrap

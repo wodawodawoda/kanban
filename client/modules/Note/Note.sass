@@ -1,0 +1,34 @@
+/* Note styles */
+.note
+  position: relative
+  background: #cccccc
+  margin: 10px 0
+  padding: 15px 0
+  transition: 0.2s
+  &:hover
+    background: #dddddd
+  &:hover .note__options
+    opacity: 1
+  &__task
+    margin-left: 15px
+  &__options
+    opacity: 0
+    position: absolute
+    right: 0
+    top: 0
+    transition: 0.4s
+    height: 50%
+  &__btn
+    height: 100%
+    width: 30px
+    color: #757575
+    background: none
+    border: none
+    transition: 0.2s
+    &:hover
+      color: #8b0000
+      background: #888888
+    &--delete-note
+      margin-left: 3px
+    &--edit-note
+      border-radius: 0 0 0 10px
