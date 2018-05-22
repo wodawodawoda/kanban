@@ -10,7 +10,7 @@ import IntlWrapper from './modules/Intl/IntlWrapper';
 import routes from './routes';
 
 // Base stylesheet
-require('./main.css');
+import './main.sass';
 
 export default function App(props) {
   return (
